@@ -7,14 +7,31 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useState } from "react";
 import { useAppSelector } from "./store.hooks";
 import { getTotalItems } from "./cart/cart.slice";
+import { makeStyles } from "@material-ui/core/styles";
+
+const drawerWidth = 300;
+const useStyles = makeStyles(theme => ({
+  drawer: {
+    flexShrink: 0,
+    width: drawerWidth
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  }
+}));
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const totalItems = useAppSelector(getTotalItems);
+  const classes = useStyles();
+  
+  
   
   return (
     <Wrapper>
-      <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+      <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)} variant="temporary" className={classes.drawer} classes={{
+          paper: classes.drawerPaper
+        }}>
         <Cart/>
       </Drawer>
       <div className='nav'>
@@ -41,6 +58,10 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-right: 20px
+  }
+  .drawer {
+    flexShrink: 0;
+    width: 200
   }
 `;
 
